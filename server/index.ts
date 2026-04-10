@@ -19,7 +19,12 @@ const app = express();
 
 // ─── Middlewares globais ──────────────────────────────────────────────────────
 
-app.use(cors({ origin: "https://ancoraprime.com", credentials: true }));
+app.use(cors({
+  origin: "https://ancoraprime.com",
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+  optionsSuccessStatus: 200 
+}));
 app.use(express.json());
 app.use(cookieParser());
 

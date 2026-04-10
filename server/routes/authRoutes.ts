@@ -14,10 +14,10 @@ const isProduction = process.env.NODE_ENV === "production";
 function setAuthCookies(res: any, session: any) {
   const cookieBase = {
     httpOnly: true,
-    secure: isProduction,
-    sameSite: "lax" as const,
+    secure: true, 
+    sameSite: "none" as const, 
     path: "/",
-    domain: isProduction ? ".ancoraprime.com" : undefined, // ← adicione isso
+    domain: isProduction ? ".ancoraprime.com" : undefined,
   };
 
   res.cookie(AUTH_COOKIE_ACCESS, session.access_token, {

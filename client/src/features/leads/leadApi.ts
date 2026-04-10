@@ -81,7 +81,6 @@ export async function createLeadConsorcio(data: {
 }) {
   const response = await fetch(`${API_URL}/api/leads/consorcio`, {
     method: "POST",
-    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
@@ -102,7 +101,6 @@ export async function createLeadSeguro(data: {
 }) {
   const response = await fetch(`${API_URL}/api/leads/seguro`, {
     method: "POST",
-    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
