@@ -12,20 +12,22 @@ const isProduction = process.env.NODE_ENV === "production";
 // ─── Helpers de cookie ────────────────────────────────────────────────────────
 
 function setAuthCookies(res: any, session: any) {
-  res.cookie(AUTH_COOKIE_ACCESS, session.access_token, {
+  const cookieBase = {
     httpOnly: true,
     secure: isProduction,
-    sameSite: "lax",
+    sameSite: "lax" as const,
     path: "/",
+    domain: isProduction ? ".ancoraprime.com" : undefined, // ← adicione isso
+  };
+
+  res.cookie(AUTH_COOKIE_ACCESS, session.access_token, {
+    ...cookieBase,
     maxAge: session.expires_in * 1000,
   });
 
   res.cookie(AUTH_COOKIE_REFRESH, session.refresh_token, {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 dias
+    ...cookieBase,
+    maxAge: 1000 * 60 * 60 * 24 * 30,
   });
 }
 
@@ -35,6 +37,7 @@ function clearAuthCookies(res: any) {
     secure: isProduction,
     sameSite: "lax" as const,
     path: "/",
+    domain: isProduction ? ".ancoraprime.com" : undefined, // ← e aqui também
   };
   res.clearCookie(AUTH_COOKIE_ACCESS, cookieOptions);
   res.clearCookie(AUTH_COOKIE_REFRESH, cookieOptions);
