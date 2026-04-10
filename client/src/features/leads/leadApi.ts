@@ -5,6 +5,8 @@ import type {
   ListLeadsResponse,
 } from "./leadTypes";
 
+const API_URL = "https://api.ancoraprime.com";
+
 // ─── Listar leads (unificado) ─────────────────────────────────────────────────
 
 export async function listLeads(
@@ -23,7 +25,7 @@ export async function listLeads(
   query.set("dateTo",   params.dateTo ?? "");
   query.set("vertente", params.vertente ?? "");
 
-  const response = await fetch(`/api/leads?${query.toString()}`, {
+  const response = await fetch(`${API_URL}/api/leads?${query.toString()}`, {
     method: "GET",
     credentials: "include",
     headers: { Accept: "application/json" },
@@ -42,7 +44,7 @@ export async function listLeads(
 // ─── Buscar por ID ────────────────────────────────────────────────────────────
 
 export async function getLeadById(id: string): Promise<Lead> {
-  const response = await fetch(`/api/leads/${id}`, {
+  const response = await fetch(`${API_URL}/api/leads/${id}`, {
     method: "GET",
     credentials: "include",
   });
@@ -57,7 +59,7 @@ export async function updateLeadStatus(
   id: string,
   status: LeadStatus
 ): Promise<Lead> {
-  const response = await fetch(`/api/leads/${id}/status`, {
+  const response = await fetch(`${API_URL}/api/leads/${id}/status`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -77,7 +79,7 @@ export async function createLeadConsorcio(data: {
   telefone: string;
   valor_simulado?: number;
 }) {
-  const response = await fetch("/api/leads/consorcio", {
+  const response = await fetch(`${API_URL}/api/leads/consorcio`, {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
@@ -98,7 +100,7 @@ export async function createLeadSeguro(data: {
   segmento: string;
   descricao: string;
 }) {
-  const response = await fetch("/api/leads/seguro", {
+  const response = await fetch(`${API_URL}/api/leads/seguro`, {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
