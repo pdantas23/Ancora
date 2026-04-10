@@ -1,20 +1,18 @@
-# Estágio de Build
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-# Compila o TS (ajuste se o seu script for diferente)
-RUN npx tsc
-
-# Estágio de Execução
 FROM node:20-alpine
-WORKDIR /app
-COPY --from=builder /app/package*.json ./
-RUN npm install --omit=dev
-COPY --from=builder /app/dist ./dist
-# Se você tiver um .env, o Easypanel injetará as variáveis, 
-# então não precisamos copiar o arquivo físico obrigatoriamente.
 
+WORKDIR /app
+
+# Copia apenas os arquivos de dependências da raiz
+COPY package*.json ./
+# Instala as dependências (incluindo tsx para rodar o TS)
+RUN npm install
+
+# Copia o restante dos arquivos (server, shared, etc)
+COPY . .
+
+# Expõe a porta da sua API
 EXPOSE 3001
-CMD ["node", "dist/index.js"]
+
+# Comando para iniciar o servidor DIRETO via tsx (ignora o build do frontend)
+# Isso pula o "npx tsc" que está dando erro
+CMD ["npx", "tsx", "server/index.ts"]
