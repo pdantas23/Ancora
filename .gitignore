@@ -1,0 +1,22 @@
+# Dependências
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Build
+dist/
+client/dist/
+server/dist/
+
+# Env e Segredos
+.env
+.env.local
+.env.production
+.env.development
+
+# Logs e Misc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+.vscode/
