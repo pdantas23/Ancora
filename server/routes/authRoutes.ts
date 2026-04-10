@@ -53,7 +53,13 @@ router.post("/login", async (req, res) => {
     const result = await loginWithEmailAndPassword(email, password);
 
     if (result.error || !result.session || !result.user) {
-      return res.status(401).json({ error: result.error || "Credenciais inválidas." });
+      // ← LOG TEMPORÁRIO — remova após diagnóstico
+      console.error("[LOGIN 401] Supabase error:", result.error);
+
+      return res.status(401).json({
+        error: result.error || "Credenciais inválidas.",
+        // ↑ já retorna a mensagem — agora você vai ver no cliente também
+      });
     }
 
     setAuthCookies(res, result.session);
